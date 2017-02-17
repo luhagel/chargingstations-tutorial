@@ -7,3 +7,5 @@ Locations.allow({
   update: () => false,
   remove: () => false,
 });
+
+Locations.rawCollection().createIndex({ location: '2dsphere' });

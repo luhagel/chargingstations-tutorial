@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Meteor from 'react-native-meteor';
 
 import config from '../config/config';
 
@@ -7,6 +8,7 @@ import { Header } from '../components/Text';
 import LocationButton from '../components/LocateMeButton';
 
 class FindNearMe extends Component {
+
   static route = {
     navigationBar: {
       visible: false,
@@ -23,6 +25,13 @@ class FindNearMe extends Component {
     maximumAge: 1000,
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+    };
+  }
+
   getLocation = () => {
     navigator.geolocation.getCurrentPosition(this.handleLocationSuccess,
                                              this.handleLocationError,
@@ -34,13 +43,31 @@ class FindNearMe extends Component {
   }
 
   handleLocationSuccess = (res) => {
-    console.log(res);
+    const params = {
+      latitude: res.coords.latitude,
+      longitude: res.coords.longitude,
+    };
+
+    this.setState({ loading: true });
+
+    Meteor.call('Locations.getNearestLocations', params, (err, locations) => {
+      if (err) {
+        this.props.navigator.showLocalAlert(err.reason, config.errorStyles);
+      } else {
+        console.log('locations', locations);
+        this.props.navigator.push('nearMe', { locations });
+      }
+      this.setState({ loading: false });
+    });
   }
 
   render() {
     return (
       <Container>
-        <LocationButton onPress={this.getLocation} />
+        <LocationButton
+          onPress={this.getLocation}
+          loading={this.state.loading}
+        />
         <Header>
           Find Near Me
         </Header>

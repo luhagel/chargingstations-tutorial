@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import Meteor from 'react-native-meteor';
 import { View, Text } from 'react-native';
 import {
   NavigationProvider,
@@ -9,6 +10,10 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Router from './config/router';
 import colors from './config/colors';
+
+import config from './config/config';
+
+Meteor.connect(config.SERVER_URL);
 
 const renderIcon = (isSelected, name, title) => {
   const color = isSelected ? colors.primary : colors.iconSubtle;
