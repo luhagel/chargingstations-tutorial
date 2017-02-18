@@ -10,7 +10,6 @@ export const getNearestLocations = new ValidatedMethod({
     longitude: { type: Number, decimal: true },
   }).validator(),
   run({ latitude, longitude }) {
-    console.log(latitude, longitude);
     return Locations.find({
       location: {
         $near: {
