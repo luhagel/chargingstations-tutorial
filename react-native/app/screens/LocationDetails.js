@@ -1,8 +1,9 @@
 import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import Meteor, { createContainer } from 'react-native-meteor';
-import { Button, Card, Text } from 'react-native-elements';
+import { Button, Card, Text, List, ListItem } from 'react-native-elements';
 import Container from '../components/Container';
+import NotFound from '../components/NotFound';
 
 import colors from '../config/colors';
 import config from '../config/config';
@@ -41,6 +42,15 @@ class LocationDetails extends Component {
     });
   }
 
+  renderItems = () => {
+    return (
+      <NotFound
+        text="No activity yet."
+        small
+      />
+    );
+  }
+
   render() {
     const location = this.props.location || _.get(this.props, 'route.params.location', {});
     const userId = _.get(this.props, 'user._id', 'demo');
@@ -76,6 +86,11 @@ class LocationDetails extends Component {
           onPress={this.attemptCheckin}
           loading={this.state.changingStatus}
         />
+        <Card title="Recent Activity">
+          <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0, marginTop: 0 }}>
+            {this.renderItems()}
+          </List>
+        </Card>
       </Container>
     );
   }
