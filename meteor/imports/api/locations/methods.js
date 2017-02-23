@@ -50,15 +50,15 @@ export const changeCheckinStatus = new ValidatedMethod({
     } else {
       Locations.update({ _id: locationId }, {
         $set: {
-          checkedInUserId: null,
+          checkedInUserId: this.userId,
         },
       });
     }
 
     Activity.insert({
       createdAt: new Date(),
-      username: 'demo',
-      userId: 'demo',
+      username: Meteor.user().username,
+      userId: this.userId,
       type: status,
       locationId,
     });
