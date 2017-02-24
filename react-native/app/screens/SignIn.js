@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { Card } from 'react-native-elements';
 import Container from '../components/Container';
-import { Header } from '../components/Text';
+import { Input, PrimaryButton, SecondaryButton } from '../components/Form';
 
 class SignIn extends Component {
   static route = {
@@ -12,10 +13,13 @@ class SignIn extends Component {
 
   render() {
     return (
-      <Container>
-        <Header>
-          Sign In
-        </Header>
+      <Container scroll>
+        <Card>
+          <Input label="Email or Username:" keyboardType="email-address" />
+          <Input label="Password:" secureTextEntry />
+          <PrimaryButton title="Login" />
+        </Card>
+        <SecondaryButton title="Need and Account?" />
       </Container>
     );
   }

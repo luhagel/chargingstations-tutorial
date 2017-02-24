@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { Card } from 'react-native-elements';
 import Container from '../components/Container';
-import { Header } from '../components/Text';
+import { Input, PrimaryButton, SecondaryButton } from '../components/Form';
 
 class SignUp extends Component {
   static route = {
@@ -10,12 +11,25 @@ class SignUp extends Component {
     },
   }
 
+  static propTypes = {
+    navigator: PropTypes.Object,
+  }
+
+  toLoginScreen = () => {
+    this.props.navigator.push('SignIn', {});
+  }
+
   render() {
     return (
-      <Container>
-        <Header>
-          Sign In
-        </Header>
+      <Container scroll>
+        <Card>
+          <Input label="Email:" keyboardType="email-address" />
+          <Input label="Username:" />
+          <Input label="Password:" secureTextEntry />
+          <Input label="Password Confirmation:" secureTextEntry />
+          <PrimaryButton title="Register" />
+        </Card>
+        <SecondaryButton title="Already have an account?" />
       </Container>
     );
   }
