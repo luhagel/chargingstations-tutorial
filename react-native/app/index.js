@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Meteor from 'react-native-meteor';
+import Meteor, { createContainer } from 'react-native-meteor';
 import { View, Text } from 'react-native';
 import {
   NavigationProvider,
@@ -71,4 +71,8 @@ App.propTypes = {
   user: PropTypes.object,
 };
 
-export default App;
+export default createContainer(() => {
+  return {
+    user: Meteor.user(),
+  };
+}, App);
