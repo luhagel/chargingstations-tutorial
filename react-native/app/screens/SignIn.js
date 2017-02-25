@@ -44,7 +44,7 @@ class SignIn extends Component {
     }
 
     this.setState({ loading: true });
-    Meteor.loginWithPassword(emailOrUsername, password, (err) => {
+    return Meteor.loginWithPassword(emailOrUsername, password, (err) => {
       this.setState({ loading: false });
       if (err) {
         this.props.navigator.showLocalAlert(err.reason, config.errorStyles);

@@ -68,13 +68,13 @@ export const changeCheckinStatus = new ValidatedMethod({
     if (status === 'in') {
       Locations.update({ _id: locationId }, {
         $set: {
-          checkedInUserId: 'demo',
+          checkedInUserId: this.userId,
         },
       });
     } else {
       Locations.update({ _id: locationId }, {
         $set: {
-          checkedInUserId: this.userId,
+          checkedInUserId: null,
         },
       });
     }

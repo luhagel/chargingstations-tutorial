@@ -79,9 +79,9 @@ class LocationDetails extends Component {
 
   render() {
     const location = this.props.location || _.get(this.props, 'route.params.location', {});
-    const userId = _.get(this.props, 'user._id', 'demo');
+    const userId = _.get(this.props, 'user._id', 'tet');
     const checkedIn = location.checkedInUserId === userId;
-    const available = location.checkedInUserId !== 'string';
+    const available = typeof location.checkedInUserId !== 'string';
 
     let icon = { name: 'check' };
     let title = 'Check In';
