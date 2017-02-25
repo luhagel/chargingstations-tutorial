@@ -1,7 +1,10 @@
 import React, { Component, PropTypes } from 'react';
+import Meteor from 'react-native-meteor';
 import { Card } from 'react-native-elements';
 import Container from '../components/Container';
 import { Input, PrimaryButton, SecondaryButton } from '../components/Form';
+
+import config from '../config/config';
 
 class SignIn extends Component {
   static route = {
@@ -21,11 +24,34 @@ class SignIn extends Component {
     this.state = {
       emailOrUsername: '',
       password: '',
+      loading: false,
     };
   }
 
   toSignup = () => {
     this.props.navigator.pop();
+  }
+
+  handleSignin = () => {
+    const { emailOrUsername, password } = this.state;
+
+    if (emailOrUsername.length === 0) {
+      return this.props.navigator.showLocalAlert('Email/Username is required.', config.errorStyles);
+    }
+
+    if (password.length === 0) {
+      return this.props.navigator.showLocalAlert('Password is required.', config.errorStyles);
+    }
+
+    this.setState({ loading: true });
+    Meteor.loginWithPassword(emailOrUsername, password, (err) => {
+      this.setState({ loading: false });
+      if (err) {
+        this.props.navigator.showLocalAlert(err.reason, config.errorStyles);
+      } else {
+        this.props.navigator.immediatelyResetStack(['profile']);
+      }
+    });
   }
 
   render() {
@@ -44,7 +70,7 @@ class SignIn extends Component {
             onChangeText={(password) => this.setState({ password })}
             value={this.state.password}
           />
-          <PrimaryButton title="Login" />
+          <PrimaryButton title="Login" loading={this.state.loading} onPress={this.handleSignin} />
         </Card>
         <SecondaryButton title="Need and Account?" onPress={this.toSignup} />
       </Container>
